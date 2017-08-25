@@ -17,4 +17,5 @@
 #   2017 Alexander Haase <ahaase@alexhaase.de>
 #
 
+from .guestlist import GuestList
 from ._version import __version__

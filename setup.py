@@ -64,4 +64,7 @@ setup(
 
 
     packages=['eventjet'],
+    scripts=[
+        'bin/eventjet-fbtargeting',
+    ],
 )
