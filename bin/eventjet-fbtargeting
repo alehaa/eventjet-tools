@@ -56,9 +56,9 @@ with args.input, args.output:
 
     # Get a list of all guests.
     #
-    # Note: Some countries require a constent form of the user receiving adver-
+    # Note: Some countries require a consent form of the user receiving adver-
     #       tisement in conjunction with his personal data (which is generated
-    #       by this command), thus the list of guests will be filtered by the
+    #       by this command), so the list of guests will be filtered by the
     #       guest's acceptance of the newsletter. Please check the law before
     #       disabling this filter!
     guestlist = eventjet.GuestList(args.input)
