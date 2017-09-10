@@ -55,21 +55,24 @@ class GuestList(csv.DictReader):
         # neccessary, values will be converted to another datatype.
         row = super().__next__()
         return {
-            # Include the personal data of the guest. As the address may not be
-            # defined (e.g. if the user registered via a guestlist code), it
-            # will be an optional sub-dictionary.
-            'salutation': row['Anrede'],
-            'name': row['Vorname'],
-            'surname': row['Nachname'],
-            'company': row['Firma'] if row['Firma'] else None,
-            'address': {
-                'street': row['Stra\xDFe'],
-                'zip': int(row['PLZ']),
-                'city': row['Ort'],
-                'country': row['Land']
-            } if row['Stra\xDFe'] else None,
-            'year_of_birth': (int(row['Geburtsjahr'])
-                              if row['Geburtsjahr'] else None),
+            # Include the personal data of the guest, if this data is available.
+            'guest': {
+                'salutation': row['Anrede'],
+                'name': row['Vorname'],
+                'surname': row['Nachname'],
+                'company': row['Firma'] if row['Firma'] else None,
+                'year_of_birth': (int(row['Geburtsjahr'])
+                                  if row['Geburtsjahr'] else None),
+
+                # As the address may not be defined (e.g. if the user registered
+                # via a guestlist code), it will be an optional sub-dictionary.
+                'address': {
+                    'street': row['Stra\xDFe'],
+                    'zip': int(row['PLZ']),
+                    'city': row['Ort'],
+                    'country': row['Land']
+                } if row['Stra\xDFe'] else None,
+            } if row['Vorname'] else None,
 
             # Add the guest's contact data. The newsletter key indicates, the
             # user agreed to get newsletters and other information via mail. For

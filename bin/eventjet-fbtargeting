@@ -61,24 +61,26 @@ with args.input, args.output:
     #       by this command), so the list of guests will be filtered by the
     #       guest's acceptance of the newsletter. Please check the law before
     #       disabling this filter!
-    guestlist = eventjet.GuestList(args.input)
+    tickets = (x for x in eventjet.GuestList(args.input) if x['guest'])
     if not args.all:
-        guestlist = (x for x in guestlist if x['newsletter'])
+        tickets = (x for x in tickets if x['newsletter'])
 
     # Iterate over all guests and write a line for each one. Attributes not
     # defined for a guest will be left empty. The gender will be converted from
     # the salution into accepted values.
-    for guest in guestlist:
+    for ticket in tickets:
         writer.writerow({
-            'fn': guest['name'],
-            'ln': guest['surname'],
-            'zip': guest['address']['zip'] if guest['address'] else None,
-            'ct': guest['address']['city'] if guest['address'] else None,
-            'country': (guest['address']['country']
-                        if guest['address'] else None),
-            'email': guest['email'],
-            'phone': guest['mobile'],
-            'doby': guest['year_of_birth'],
-            'gen': ('M' if guest['salutation'] == 'Herr' else
-                    ('W' if guest['salutation'] == 'Frau' else None))
+            'fn': ticket['guest']['name'],
+            'ln': ticket['guest']['surname'],
+            'zip': (ticket['guest']['address']['zip']
+                    if ticket['guest']['address'] else None),
+            'ct': (ticket['guest']['address']['city']
+                   if ticket['guest']['address'] else None),
+            'country': (ticket['guest']['address']['country']
+                        if ticket['guest']['address'] else None),
+            'email': ticket['email'],
+            'phone': ticket['mobile'],
+            'doby': ticket['guest']['year_of_birth'],
+            'gen': ('M' if ticket['guest']['salutation'] == 'Herr' else
+                    ('W' if ticket['guest']['salutation'] == 'Frau' else None))
         })
